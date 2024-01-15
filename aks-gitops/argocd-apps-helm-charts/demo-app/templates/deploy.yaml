@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "1"
+  labels:
+    App: {{ .Values.config.labelSelector }}
+  name: {{ .Values.config.labelSelector }}
+  namespace: {{ .Values.config.ns }}
+spec:
+  replicas: {{ .Values.deploy.replicaCount }}
+  selector:
+    matchLabels:
+      App: {{ .Values.config.labelSelector}}
+  template:
+    metadata:
+      labels:
+        App: {{ .Values.config.labelSelector }}
+    spec:
+      containers:
+        - image: {{ .Values.deploy.image.repository }}:{{ .Values.deploy.image.version }}
+          name: {{ .Values.deploy.container.name }}
+          ports:
+            - containerPort: {{ .Values.deploy.container.port }}
+              protocol: TCP
+        

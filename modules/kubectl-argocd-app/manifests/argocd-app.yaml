@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  annotations:
+    notifications.argoproj.io/subscribe.on-deployed.slack: ${notification_slack_channel_name}
+    notifications.argoproj.io/subscribe.on-health-degraded.slack: ${notification_slack_channel_name}
+    notifications.argoproj.io/subscribe.on-sync-failed.slack: ${notification_slack_channel_name}
+    notifications.argoproj.io/subscribe.on-sync-status-unknown.slack: ${notification_slack_channel_name}
+    notifications.argoproj.io/subscribe.on-sync-succeeded.slack: ${notification_slack_channel_name}
+  name: ${app_name}
+  namespace: ${argocd_namespace}
+spec:
+  destination:
+    namespace: ${projectspace}
+    server: ${cluster_address}
+  project: ${project}
+  source:
+    path: ${helm_charts_repo_path}
+    repoURL: ${helm_charts_repo_ssh_url}
+    targetRevision: ${helm_charts_repo_revision}
+  syncPolicy:
+    automated:
+      prune: true

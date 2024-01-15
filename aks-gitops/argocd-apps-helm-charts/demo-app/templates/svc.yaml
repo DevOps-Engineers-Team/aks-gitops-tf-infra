@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.svc.name }}
+  namespace: {{ .Values.config.ns }}
+spec:
+  ports:
+  {{- range .Values.svc.portMapping }}
+  - name: {{ .name }}
+    port: {{ .port }}
+    protocol: TCP
+    targetPort: {{ .targetPort }}
+  {{- end }}
+  selector:
+    App: {{ .Values.config.labelSelector }}
+  type: {{ .Values.svc.type }}
+

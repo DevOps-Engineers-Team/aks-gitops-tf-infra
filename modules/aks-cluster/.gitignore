@@ -1,0 +1,21 @@
+# terraform
+.terraform
+.terraform.lock.hcl
+*.tfstate*
+terraform.tfstate
+terraform.tfvars
+
+# macOS
+.DS_Store
+
+# vim
+*~
+*.swp
+
+# jetbrains
+.idea
+
+# misc
+.envrc
+*.json
+private_ssh_key

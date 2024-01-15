@@ -1,0 +1,33 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: ${project}
+  namespace: ${argocd_namespace}
+spec:
+  destinations:
+    - namespace: ${projectspace}
+      server: ${cluster_address}
+  roles:
+    - groups:
+        - '*'
+      name: ${argocd_namespace}-${projectspace}-application-controller
+      policies:
+        - p, proj:${project}:${argocd_namespace}-${argocd_namespace}-${projectspace}-application-controller, applications, *, ${project}/*, allow
+    - groups:
+        - '*'
+      name: ${argocd_namespace}-${project}-dex-server
+      policies:
+        - p, proj:${project}:${argocd_namespace}-${argocd_namespace}-${projectspace}-dex-server, applications, *, ${project}/*, allow
+  sourceRepos:
+    - ${helm_charts_repo_ssh_url}
+  syncWindows:
+    - applications:
+        - '*'
+      clusters:
+        - default
+      duration: ${sync_window_duration}
+      kind: allow
+      namespaces:
+        - '*'
+      schedule: ${cron_scheduling}
+      timeZone: CET

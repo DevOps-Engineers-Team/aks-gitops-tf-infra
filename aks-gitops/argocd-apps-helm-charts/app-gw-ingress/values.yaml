@@ -1,0 +1,11 @@
+config:
+  ns: wssb-poc
+
+# ingress
+
+ingress:
+  name: witold-demo-app-ingress
+  albRules:
+    - hostUrl: test-app.witold-demo.net
+      serviceName: witold-demo-app-service
+      portNumber: 3000

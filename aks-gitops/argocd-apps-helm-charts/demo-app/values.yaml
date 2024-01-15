@@ -1,0 +1,24 @@
+config:
+  ns: wssb-poc
+  labelSelector: witold-demo-app
+
+# deploy
+
+deploy:
+  replicaCount: 1
+  image:
+    repository: "witolddemoacr.azurecr.io/demo-apps/witold-app"
+    version: "1.0.0"
+  container:
+    name:  ws-runtime
+    port: 80
+
+# svc
+
+svc:
+  name: witold-demo-app-service
+  type: ClusterIP
+  portMapping:
+    - name: api
+      port: 3000
+      targetPort: 80
